@@ -1,75 +1,29 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: my-app-blue-green
-  labels:
-    app: my-app
+  name: test-deploy-svc-1
+  annotations:
+    harness.io/primary-service: "true"
 spec:
-  replicas: 2
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
   selector:
-    matchLabels:
-      app: my-app
-      version: blue  # Initial version
-  template:
-    metadata:
-      labels:
-        app: my-app
-        version: blue
-    spec:
-      containers:
-      - name: my-app-container
-        image: my-repo/my-app:blue  # Blue version of the app
-        ports:
-        - containerPort: 80
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-app-green
-  labels:
-    app: my-app
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: my-app
-      version: green  # Green version (new release)
-  template:
-    metadata:
-      labels:
-        app: my-app
-        version: green
-    spec:
-      containers:
-      - name: my-app-container
-        image: my-repo/my-app:green  # Green version of the app
-        ports:
-        - containerPort: 80
+    app: nginx
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-app
+  name: test-deploy-svc-2
+  annotations:
+    harness.io/stage-service: "true"
 spec:
-  selector:
-    app: my-app
+  type: ClusterIP
   ports:
-  - port: 80
-    targetPort: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: my-app-ingress
-spec:
-  rules:
-  - host: my-app.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: my-app
-            port:
-              number: 80
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: nginx
