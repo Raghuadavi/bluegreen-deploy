@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-app
+  labels:
+    app: my-app
+    version: green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+      version: green
+  template:
+    metadata:
+      labels:
+        app: my-app
+        version: green
+    spec:
+      containers:
+        - name: my-app-container
+          image: my-app:green # Replace with your green version image
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: green-app-service
+spec:
+  selector:
+    app: my-app
+    version: green
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
