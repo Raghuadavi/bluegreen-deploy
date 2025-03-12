@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: my-app-container
-          image: "nasi101/tetris" # Replace with your blue version image
+          image: nginx:1.10 # Replace with your blue version image
           ports:
             - containerPort: 8080
 ---
