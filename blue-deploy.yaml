@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: my-app-container
-          image: http://gcr.io/google-samples/hello-app:1.0# Replace with your blue version image
+          image: "nasi101/tetris" # Replace with your blue version image
           ports:
             - containerPort: 8080
 ---
