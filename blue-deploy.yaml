@@ -28,6 +28,7 @@ kind: Service
 metadata:
   name: blue-app-service
 spec:
+  type: LoadBalancer
   selector:
     app: my-app
     version: blue
