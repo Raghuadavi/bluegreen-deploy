@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: my-app-container
-          image: "nasi101/tetris" # Replace with your green version image
+          image: nginx:1.11 # Replace with your green version image
           ports:
             - containerPort: 8080
 ---
@@ -28,6 +28,7 @@ kind: Service
 metadata:
   name: green-app-service
 spec:
+  type: LoadBalancer
   selector:
     app: my-app
     version: green
