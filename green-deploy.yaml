@@ -1,37 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: green-app
+  name: canary-app
   labels:
     app: my-app
-    version: green
+    version: canary
 spec:
-  replicas: 3
+  replicas: 4    # Canary version starts with fewer replicas
   selector:
     matchLabels:
       app: my-app
-      version: green
+      version: canary
   template:
     metadata:
       labels:
         app: my-app
-        version: green
+        version: canary
     spec:
       containers:
         - name: my-app-container
-          image: nginx:1.11 # Replace with your green version image
+          image: nginx:alpine  # Replace with the canary version image
           ports:
             - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: green-app-service
+  name: canary-app-service
 spec:
-  type: LoadBalancer
   selector:
     app: my-app
-    version: green
+    version: canary
   ports:
     - protocol: TCP
       port: 80
